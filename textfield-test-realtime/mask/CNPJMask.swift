@@ -28,6 +28,22 @@ class CNPJMask {
         cnpj += value.replacingOccurrences(of: "/", with: "")
         return cnpj
     }
+    
+    func isCNPJ(_ text: String) -> Bool {
+        let cnpjRegex = "[0-9]{2}\\.?[0-9]{3}\\.?[0-9]{3}\\/?[0-9]{4}\\-?[0-9]{2}"
+        var regex : NSRegularExpression!
+        do {
+            try regex = NSRegularExpression(pattern: cnpjRegex, options: .caseInsensitive)
+        } catch {
+            print("LOG >> REGEX CNPJ FAILED")
+        }
+        
+        return regex.firstMatch(
+            in: text,
+            options: NSRegularExpression.MatchingOptions(rawValue: 0),
+            range: NSMakeRange(0, text.count)
+        ) != nil
+    }
 }
 
 extension Collection where Element == Int {
@@ -39,13 +55,5 @@ extension Collection where Element == Int {
             if number == 9 { number = 1 }
         } % 11
         return digit > 9 ? 0 : digit
-    }
-}
-extension StringProtocol {
-    var isCNPJ: Bool {
-        let numbers = compactMap(\.wholeNumberValue)
-        guard numbers.count == 14 && Set(numbers).count != 1 else { return false }
-        return numbers.prefix(12).digitoCNPJ == numbers[12] &&
-               numbers.prefix(13).digitoCNPJ == numbers[13]
     }
 }

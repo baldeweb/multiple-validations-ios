@@ -9,18 +9,15 @@ import Foundation
 import UIKit
 
 class MyTextField: UITextField {
-    var textTyped: (String) -> Void?
-    
-    init(textType: (String) -> Void?) {
-        self.textTyped = textTyped
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    override public func deleteBackward() {
-        self.textTyped(text ?? "")
-        super.deleteBackward()
-    }
+//    var textTyped: (String) -> Void?
+//    
+//    required init?(coder: NSCoder) {
+//        super.init(coder: coder)
+//        self.textTyped("")
+//    }
+//
+//    override public func deleteBackward() {
+//        self.textTyped(text ?? "")
+//        super.deleteBackward()
+//    }
 }

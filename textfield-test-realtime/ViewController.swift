@@ -20,6 +20,9 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        if #available(iOS 13.0, *) {
+            UIWindow.init().overrideUserInterfaceStyle = .light
+        }
         //self.nameField.addTarget(self, action: #selector(beforeTextFieldDidChange(_:)), for: .editingDidBegin)
         self.nameField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
     }
@@ -67,8 +70,9 @@ class ViewController: UIViewController {
         print("hasOnlyNumbers(self.cleanText)t: \(self.hasOnlyNumbers(self.cleanText))")
         if self.cleanText.count == 11 && self.hasOnlyNumbers(self.cleanText) {
             //  CPF ou CELULAR
-            if self.cleanText.isCPF {
+            if CPFMask().isCPF(self.cleanText) {
                 //  CPF
+                print("LOG >> CPF")
                 self.filledText = CPFMask().mask(self.cleanText)
                 self.setMask(self.filledText)
             } else if PhoneMask().isPhone(self.cleanText) {
@@ -80,13 +84,14 @@ class ViewController: UIViewController {
         } else if self.cleanText.count == 12 {
             self.setMask(self.cleanText)
         } else if self.cleanText.count == 14 && self.hasOnlyNumbers(self.cleanText) {
-            if self.cleanText.isCNPJ {
+            if CNPJMask().isCNPJ(self.cleanText) {
                 //  CNPJ
                 print("LOG >> CNPJ")
                 self.filledText = CNPJMask().mask(self.cleanText)
                 self.setMask(self.filledText)
-            }else{
+            } else {
                 //  "CNPJ invalido"
+                print("LOG >> CNPJ INVALIDO")
             }
         } else if self.cleanText.count == 15 {
             self.setMask(self.cleanText)
@@ -97,9 +102,13 @@ class ViewController: UIViewController {
                 self.filledText = self.cleanText
             } else {
                 //  "Chave aleatória invalida"
+                print("LOG >> CHAVE ALEATORIA INVALIDA")
             }
         } else {
             //  "Chave invalida"
+            print("LOG >> CHAVE INVALIDA")
+            self.cleanText = self.getOnlyNumbers(text ?? "")
+            self.nameField.text = self.cleanText
         }
         isRunning = false;
     }

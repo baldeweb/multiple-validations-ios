@@ -30,7 +30,19 @@ class CPFMask {
     }
     
     func isCPF(_ text: String) -> Bool {
-        return text.isCPF
+        let cpfRegex = "[0-9]{3}\\.?[0-9]{3}\\.?[0-9]{3}\\-?[0-9]{2}"
+        var regex : NSRegularExpression!
+        do {
+            try regex = NSRegularExpression(pattern: cpfRegex, options: .caseInsensitive)
+        } catch {
+            print("LOG >> REGEX CPF FAILED")
+        }
+        
+        return regex.firstMatch(
+            in: text,
+            options: NSRegularExpression.MatchingOptions(rawValue: 0),
+            range: NSMakeRange(0, text.count)
+        ) != nil
     }
 }
 
@@ -42,13 +54,5 @@ extension Collection where Element == Int {
             $0 += $1 * number
         } % 11
         return digit > 9 ? 0 : digit
-    }
-}
-extension StringProtocol {
-    var isCPF: Bool {
-        let numbers = compactMap(\.wholeNumberValue)
-        guard numbers.count == 11 && Set(numbers).count != 1 else { return false }
-        return numbers.prefix(9).digitoCPF == numbers[9] &&
-               numbers.prefix(10).digitoCPF == numbers[10]
     }
 }
