@@ -12,7 +12,6 @@ class ViewController: UIViewController {
     private var filledText = ""
     private var cleanText = ""
     private var isDeleting = false
-    private var isRunning = false
     private var shouldNotValidation = false
     
     @IBOutlet weak var nameField: UITextField!
@@ -50,11 +49,6 @@ class ViewController: UIViewController {
             return
         }
         
-        print("isRunning: \(self.isRunning)")
-        if self.isRunning {
-            return
-        }
-        
         print("shouldNotValidation: \(self.shouldNotValidation)")
         if self.shouldNotValidation {
             if self.cleanText.count != text?.count {
@@ -63,26 +57,23 @@ class ViewController: UIViewController {
             return
         }
 
-        self.isRunning = true
-        
         print("cleanText: \(cleanText)")
         print("cleanText.count: \(cleanText.count)")
         print("hasOnlyNumbers(self.cleanText)t: \(self.hasOnlyNumbers(self.cleanText))")
+        
         if self.cleanText.count == 11 && self.hasOnlyNumbers(self.cleanText) {
             //  CPF ou CELULAR
-            if CPFMask().isCPF(self.cleanText) {
-                //  CPF
-                print("LOG >> CPF")
-                self.filledText = CPFMask().mask(self.cleanText)
-                self.setMask(self.filledText)
-            } else if PhoneMask().isPhone(self.cleanText) {
-                //  CELULAR
+            if PhoneMask().isPhone(self.cleanText) {
                 print("LOG >> CELULAR")
                 self.filledText = PhoneMask().mask(self.cleanText)
                 self.setMask(self.filledText)
+            } else if CPFMask().isCPF(self.cleanText) {
+                print("LOG >> CPF")
+                self.filledText = CPFMask().mask(self.cleanText)
+                self.setMask(self.filledText)
+            } else {
+                print("LOG >> NEM CPF | NEM CPNJ")
             }
-        } else if self.cleanText.count == 12 {
-            self.setMask(self.cleanText)
         } else if self.cleanText.count == 14 && self.hasOnlyNumbers(self.cleanText) {
             if CNPJMask().isCNPJ(self.cleanText) {
                 //  CNPJ
@@ -93,8 +84,6 @@ class ViewController: UIViewController {
                 //  "CNPJ invalido"
                 print("LOG >> CNPJ INVALIDO")
             }
-        } else if self.cleanText.count == 15 {
-            self.setMask(self.cleanText)
         } else if self.cleanText.count == 32 {
             //  CHAVE ALEATORIA
             if self.hasLettersOrNumbers(text ?? "") {
@@ -110,7 +99,6 @@ class ViewController: UIViewController {
             self.cleanText = self.getOnlyNumbers(text ?? "")
             self.nameField.text = self.cleanText
         }
-        isRunning = false;
     }
     
     func getOnlyNumbers(_ text: String) -> String {

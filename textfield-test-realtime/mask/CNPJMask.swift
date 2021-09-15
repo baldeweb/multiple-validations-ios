@@ -11,7 +11,7 @@ class CNPJMask {
     func mask(_ value: String) -> String {
         let cnpj = value
         var builder = ""
-        builder += cnpj[1..<3]
+        builder += cnpj[0..<2]
         builder += "."
         builder += cnpj[3..<6]
         builder += "."
@@ -21,12 +21,6 @@ class CNPJMask {
         builder += "-"
         builder += cnpj[13..<15]
         return builder
-    }
-
-    func unmask(_ value: String) -> String {
-        var cnpj = value.replacingOccurrences(of: ".", with: "")
-        cnpj += value.replacingOccurrences(of: "/", with: "")
-        return cnpj
     }
     
     func isCNPJ(_ text: String) -> Bool {
@@ -43,17 +37,5 @@ class CNPJMask {
             options: NSRegularExpression.MatchingOptions(rawValue: 0),
             range: NSMakeRange(0, text.count)
         ) != nil
-    }
-}
-
-extension Collection where Element == Int {
-    var digitoCNPJ: Int {
-        var number = 1
-        let digit = 11 - reversed().reduce(into: 0) {
-            number += 1
-            $0 += $1 * number
-            if number == 9 { number = 1 }
-        } % 11
-        return digit > 9 ? 0 : digit
     }
 }

@@ -23,12 +23,6 @@ class CPFMask {
         return builder
     }
 
-    func unmask(_ value: String) -> String {
-        var cpf = value.replacingOccurrences(of: ".", with: "")
-        cpf += value.replacingOccurrences(of: "-", with: "")
-        return cpf
-    }
-    
     func isCPF(_ text: String) -> Bool {
         let cpfRegex = "[0-9]{3}\\.?[0-9]{3}\\.?[0-9]{3}\\-?[0-9]{2}"
         var regex : NSRegularExpression!
@@ -43,16 +37,5 @@ class CPFMask {
             options: NSRegularExpression.MatchingOptions(rawValue: 0),
             range: NSMakeRange(0, text.count)
         ) != nil
-    }
-}
-
-extension Collection where Element == Int {
-    var digitoCPF: Int {
-        var number = count + 2
-        let digit = 11 - reduce(into: 0) {
-            number -= 1
-            $0 += $1 * number
-        } % 11
-        return digit > 9 ? 0 : digit
     }
 }
