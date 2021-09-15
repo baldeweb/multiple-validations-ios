@@ -11,63 +11,37 @@ class ViewController: UIViewController {
 
     private var filledText = ""
     private var cleanText = ""
-    private var isDeleting = false
-    private var shouldNotValidation = false
     
     @IBOutlet weak var nameField: UITextField!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if #available(iOS 13.0, *) {
-            UIWindow.init().overrideUserInterfaceStyle = .light
-        }
         //self.nameField.addTarget(self, action: #selector(beforeTextFieldDidChange(_:)), for: .editingDidBegin)
         self.nameField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
     }
     
-    func beforeTextChanged(_ text: String?) {
-        self.isDeleting = self.filledText.count > (text?.count ?? 0)
-        print("beforeTextChanged >> isDeleting: \(isDeleting) | text?.count: \(text?.count ?? 0) | filledText?.count: \(self.filledText.count ?? 0)")
-        if text != nil {
-            self.shouldNotValidation = (text?.count ?? 0) < 10
-        }
-    }
+//    func beforeTextChanged(_ text: String?) {
+//        print("beforeTextChanged >> text?.count: \(text?.count ?? 0) | filledText?.count: \(self.filledText.count ?? 0)")
+//    }
     
     func onTextChanged(_ text: String?) {
-        print(" ")
-        print("onTextChanged: \(text ?? "")")
-        //beforeTextChanged(text)
         self.cleanText = self.getOnlyNumbers(text ?? "")
-        print("getOnlyNumbers: \(self.getOnlyNumbers(text ?? ""))")
-
-        //  Controle de thread
-        print("isDeleting: \(isDeleting)")
-        if self.isDeleting {
-            print("self.cleanTex: \(self.cleanText)")
-            self.setMask(self.cleanText)
-            return
-        }
         
-        print("shouldNotValidation: \(self.shouldNotValidation)")
-        if self.shouldNotValidation {
-            if self.cleanText.count != text?.count {
-                self.setMask(self.cleanText)
-            }
-            return
-        }
-
-        print("cleanText: \(cleanText)")
-        print("cleanText.count: \(cleanText.count)")
-        print("hasOnlyNumbers(self.cleanText)t: \(self.hasOnlyNumbers(self.cleanText))")
+        print(" ")
+        print("LOG >> onTextChanged: \(text ?? "")")
+        print("LOG >> getOnlyNumbers: \(self.getOnlyNumbers(text ?? ""))")
+        print("LOG >> cleanText: \(cleanText)")
+        print("LOG >> cleanText.count: \(cleanText.count)")
+        print("LOG >> hasOnlyNumbers(self.cleanText)t: \(self.hasOnlyNumbers(self.cleanText))")
         
         if self.cleanText.count == 11 && self.hasOnlyNumbers(self.cleanText) {
             //  CPF ou CELULAR
-            if PhoneMask().isPhone(self.cleanText) {
+            if PhoneMask().isPhone(self.cleanText) && PhoneMask().isValidPhone(self.cleanText){
                 print("LOG >> CELULAR")
                 self.filledText = PhoneMask().mask(self.cleanText)
                 self.setMask(self.filledText)
-            } else if CPFMask().isCPF(self.cleanText) {
+            } else if CPFMask().isCPF(self.cleanText) && CPFMask().isValidCPF(self.cleanText) {
                 print("LOG >> CPF")
                 self.filledText = CPFMask().mask(self.cleanText)
                 self.setMask(self.filledText)
@@ -140,6 +114,6 @@ class ViewController: UIViewController {
     }
     
     @objc func beforeTextFieldDidChange(_ text: UITextField) {
-        self.beforeTextChanged(text.text ?? "")
+       // self.beforeTextChanged(text.text ?? "")
     }
 }

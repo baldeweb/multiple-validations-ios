@@ -9,31 +9,40 @@ import Foundation
 
 class PhoneMask {
     func mask(_ value: String, _ withDDI: Bool = false) -> String {
-        var phone = value
-        if phone.starts(with: "+") {
-            phone = String(value.dropFirst())
-        }
+        let phone = value
         
-        if phone.starts(with: "55") {
-            phone = String(value.drop(while: "55".contains(_:)))
-        }
-        
-        let prefix = withDDI ? "+55(" : "("
+        let prefix = withDDI ? "(" : "("
         var builder = ""
         builder += prefix
-        builder += phone[1..<3]
+        builder += phone[0..<2]
         builder += ") "
-        builder += phone[3..<8]
+        builder += phone[2..<7]
         builder += "-"
-        builder += phone[8..<12]
+        builder += phone[7..<11]
         return builder
     }
 
     func isPhone(_ text: String) -> Bool {
-        let phoneRegex = "([\\+]?[5-5]{2})?[(]?((11)|(12)|(13)|(14)|(15)|(16)|(17)|(18)|(19)|(21)|(22)|(24)|(27)|(28)|(31)|(32)|(33)|(34)|(35)|(37)|(38)|(41)(42)|(43)|(44)|(45)|(46)|(47)|(48)|(49)|(51)|(53)|(54)|(55)|(61)|(62)|(63)|(64)|(65)|(66)|(67)|(68)|(69)|(71)(73)|(74)|(75)|(77)|(79)|(81)|(82)|(83)|(84)|(85)|(86)|(87)|(88)|(89)|(91)|(92)|(93)|(94)|(95)|(96)|(97)|(98)|(99))[)]?(?:[2-8]|9[1-9])[0-9]{3}[0-9]{4}$"
+        let phoneRegex = "[(]?(?:((10|20|23|25|26|29|30|36|39|40|50|52|56|57|58|59|60|70|72|76|78|80|90)))[)]?(?:[2-8]|9[1-9])[0-9]{3}[0-9]{4}$"
         var regex : NSRegularExpression!
         do {
-            try regex = NSRegularExpression(pattern: phoneRegex, options: .caseInsensitive)
+            try regex = NSRegularExpression(pattern: phoneRegex, options: NSRegularExpression.Options.caseInsensitive)
+        } catch {
+            print("LOG >> REGEX CPF FAILED")
+        }
+        
+        return regex.firstMatch(
+            in: text,
+            options: NSRegularExpression.MatchingOptions(rawValue: 0),
+            range: NSMakeRange(0, text.count)
+        ) != nil
+    }
+    
+    func isValidPhone(_ text: String) -> Bool {
+        let phoneNumberRegex = "/^\\(\\d{2}\\)\\d{4,5}-\\d{4}$/gi"
+        var regex : NSRegularExpression!
+        do {
+            try regex = NSRegularExpression(pattern: phoneNumberRegex, options: NSRegularExpression.Options.caseInsensitive)
         } catch {
             print("LOG >> REGEX CPF FAILED")
         }
