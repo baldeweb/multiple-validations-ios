@@ -37,13 +37,13 @@ class ViewController: UIViewController {
         
         if self.cleanText.count == 11 && self.hasOnlyNumbers(self.cleanText) {
             //  CPF ou CELULAR
-            if PhoneMask().isPhone(self.cleanText) && PhoneMask().isValidPhone(self.cleanText){
-                print("LOG >> CELULAR")
-                self.filledText = PhoneMask().mask(self.cleanText)
-                self.setMask(self.filledText)
-            } else if CPFMask().isCPF(self.cleanText) && CPFMask().isValidCPF(self.cleanText) {
+            if CPFMask().isCPF(self.cleanText) && CPFMask().isValidCPF(self.cleanText) {
                 print("LOG >> CPF")
                 self.filledText = CPFMask().mask(self.cleanText)
+                self.setMask(self.filledText)
+            } else if PhoneMask().isPhone(self.cleanText) {
+                print("LOG >> CELULAR")
+                self.filledText = PhoneMask().mask(self.cleanText)
                 self.setMask(self.filledText)
             } else {
                 print("LOG >> NEM CPF | NEM CPNJ")
@@ -60,7 +60,7 @@ class ViewController: UIViewController {
             }
         } else if self.cleanText.count == 32 {
             //  CHAVE ALEATORIA
-            if self.hasLettersOrNumbers(text ?? "") {
+            if ChaveAleatoriaMask().isValid(text ?? "") {
                 print("LOG >> CHAVE ALEATORIA")
                 self.filledText = self.cleanText
             } else {

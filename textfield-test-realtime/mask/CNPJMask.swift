@@ -13,13 +13,13 @@ class CNPJMask {
         var builder = ""
         builder += cnpj[0..<2]
         builder += "."
-        builder += cnpj[3..<6]
+        builder += cnpj[2..<5]
         builder += "."
-        builder += cnpj[6..<9]
+        builder += cnpj[5..<8]
         builder += "/"
-        builder += cnpj[9..<13]
+        builder += cnpj[8..<12]
         builder += "-"
-        builder += cnpj[13..<15]
+        builder += cnpj[12..<14]
         return builder
     }
     
