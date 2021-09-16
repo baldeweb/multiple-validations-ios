@@ -14,28 +14,29 @@ class PhoneMask {
         var builder = ""
         
         if !value.starts(with: "+55") {
-            prefix = ""
-            builder += "("
+            prefix = "+55("
+            builder += prefix
             builder += phone[0..<2]
             builder += ")"
             builder += phone[2..<7]
             builder += "-"
             builder += phone[7..<11]
         } else {
-            prefix = "+55("
+            prefix = ""
             builder += prefix
-            builder += phone[2..<4]
+            builder += phone[0..<2]
             builder += ")"
-            builder += phone[4..<9]
+            builder += phone[2..<7]
             builder += "-"
-            builder += phone[9..<13]
+            builder += phone[7..<11]
         }
         
         return builder
     }
 
     func isPhone(_ text: String) -> Bool {
-        let phoneRegex = "^(\\+55)?[(]?(?:10|20|23|25|26|29|30|36|39|40|50|52|56|57|58|59|60|70|72|76|78|80|90)[)]?\\d{5}[-]?\\d{4}$"
+        let invalidDDI = "10|20|23|25|26|29|30|36|39|40|50|52|56|57|58|59|60|70|72|76|78|80|90"
+        let phoneRegex = "^(\\+55)?([(]?(?:"+invalidDDI+")[)]?|(?:"+invalidDDI+"))\\d{5}[-]?\\d{4}$"
         var regex : NSRegularExpression!
         do {
             try regex = NSRegularExpression(pattern: phoneRegex, options: NSRegularExpression.Options.caseInsensitive)

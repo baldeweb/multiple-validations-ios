@@ -77,11 +77,24 @@ class ViewController: UIViewController {
     
     func getOnlyNumbers(_ text: String) -> String {
         var textUnmasked = text.replacingOccurrences(of: ".", with: "")
+        if text.starts(with: "+55") {
+            textUnmasked = text.replacingOccurrences(of: "+55", with: "")
+        }
         textUnmasked = textUnmasked.replacingOccurrences(of: "-", with: "")
         textUnmasked = textUnmasked.replacingOccurrences(of: "/", with: "")
         textUnmasked = textUnmasked.replacingOccurrences(of: "(", with: "")
         textUnmasked = textUnmasked.replacingOccurrences(of: " ", with: "")
         textUnmasked = textUnmasked.replacingOccurrences(of: "+", with: "")
+        textUnmasked = textUnmasked.replacingOccurrences(of: ")", with: "")
+        return textUnmasked
+    }
+    
+    func getOnlyNumbersWithoutPlus(_ text: String) -> String {
+        var textUnmasked = text.replacingOccurrences(of: ".", with: "")
+        textUnmasked = textUnmasked.replacingOccurrences(of: "-", with: "")
+        textUnmasked = textUnmasked.replacingOccurrences(of: "/", with: "")
+        textUnmasked = textUnmasked.replacingOccurrences(of: "(", with: "")
+        textUnmasked = textUnmasked.replacingOccurrences(of: " ", with: "")
         textUnmasked = textUnmasked.replacingOccurrences(of: ")", with: "")
         return textUnmasked
     }
