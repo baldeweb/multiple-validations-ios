@@ -17,25 +17,26 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        //self.nameField.addTarget(self, action: #selector(beforeTextFieldDidChange(_:)), for: .editingDidBegin)
         self.nameField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
     }
     
-//    func beforeTextChanged(_ text: String?) {
-//        print("beforeTextChanged >> text?.count: \(text?.count ?? 0) | filledText?.count: \(self.filledText.count ?? 0)")
-//    }
-    
     func onTextChanged(_ text: String?) {
-        self.cleanText = self.getOnlyNumbers(text ?? "")
+        self.cleanText = text?.getOnlyNumbers() ?? ""
         
         print(" ")
         print("LOG >> onTextChanged: \(text ?? "")")
-        print("LOG >> getOnlyNumbers: \(self.getOnlyNumbers(text ?? ""))")
+        print("LOG >> getOnlyNumbers: \(String(describing: text?.getOnlyNumbers()))")
         print("LOG >> cleanText: \(cleanText)")
         print("LOG >> cleanText.count: \(cleanText.count)")
-        print("LOG >> hasOnlyNumbers(self.cleanText)t: \(self.hasOnlyNumbers(self.cleanText))")
+        print("LOG >> hasOnlyNumbers(self.cleanText)t: \(self.cleanText.hasOnlyNumbers())")
         
-        if self.cleanText.count == 11 && self.hasOnlyNumbers(self.cleanText) {
+        if EmailMask().isEmail(text ?? "") {
+            if EmailMask().isValidEmail(text ?? "") {
+                print("LOG >> EMAIL")
+            } else {
+                print("LOG >> EMAIL INVALIDO")
+            }
+        } else if self.cleanText.count == 11 && self.cleanText.hasOnlyNumbers() {
             //  CPF ou CELULAR
             if CPFMask().isCPF(self.cleanText) && CPFMask().isValidCPF(self.cleanText) {
                 print("LOG >> CPF")
@@ -48,7 +49,7 @@ class ViewController: UIViewController {
             } else {
                 print("LOG >> NEM CPF | NEM CPNJ")
             }
-        } else if self.cleanText.count == 14 && self.hasOnlyNumbers(self.cleanText) {
+        } else if self.cleanText.count == 14 && self.cleanText.hasOnlyNumbers() {
             if CNPJMask().isCNPJ(self.cleanText) {
                 //  CNPJ
                 print("LOG >> CNPJ")
@@ -70,33 +71,9 @@ class ViewController: UIViewController {
         } else {
             //  "Chave invalida"
             print("LOG >> CHAVE INVALIDA")
-            self.cleanText = self.getOnlyNumbers(text ?? "")
+            self.cleanText = self.cleanText.getOnlyNumbers()
             self.nameField.text = self.cleanText
         }
-    }
-    
-    func getOnlyNumbers(_ text: String) -> String {
-        var textUnmasked = text.replacingOccurrences(of: ".", with: "")
-        if text.starts(with: "+55") {
-            textUnmasked = text.replacingOccurrences(of: "+55", with: "")
-        }
-        textUnmasked = textUnmasked.replacingOccurrences(of: "-", with: "")
-        textUnmasked = textUnmasked.replacingOccurrences(of: "/", with: "")
-        textUnmasked = textUnmasked.replacingOccurrences(of: "(", with: "")
-        textUnmasked = textUnmasked.replacingOccurrences(of: " ", with: "")
-        textUnmasked = textUnmasked.replacingOccurrences(of: "+", with: "")
-        textUnmasked = textUnmasked.replacingOccurrences(of: ")", with: "")
-        return textUnmasked
-    }
-    
-    func getOnlyNumbersWithoutPlus(_ text: String) -> String {
-        var textUnmasked = text.replacingOccurrences(of: ".", with: "")
-        textUnmasked = textUnmasked.replacingOccurrences(of: "-", with: "")
-        textUnmasked = textUnmasked.replacingOccurrences(of: "/", with: "")
-        textUnmasked = textUnmasked.replacingOccurrences(of: "(", with: "")
-        textUnmasked = textUnmasked.replacingOccurrences(of: " ", with: "")
-        textUnmasked = textUnmasked.replacingOccurrences(of: ")", with: "")
-        return textUnmasked
     }
     
     private func setMask(_ text: String) {
@@ -104,29 +81,7 @@ class ViewController: UIViewController {
         self.nameField.text = text
     }
     
-    func hasLetters(_ text: String) -> Bool {
-        return !text.filter { $0.isLetter }.isEmpty
-    }
-    
-    func hasNumbers(_ text: String) -> Bool {
-        return !text.filter { $0.isNumber }.isEmpty
-    }
-    
-    func hasLettersOrNumbers(_ text: String) -> Bool {
-        return self.hasLetters(text) || self.hasNumbers(text)
-    }
-    
-    func hasOnlyNumbers(_ text: String) -> Bool {
-        return hasNumbers(self.getOnlyNumbers(text))
-    }
-    
     @objc func textFieldDidChange(_ text: UITextField) {
-        //print("DIGITADO: \(text.text ?? "")")
-        //self.beforeTextChanged(text.text ?? "")
         self.onTextChanged(text.text ?? "")
-    }
-    
-    @objc func beforeTextFieldDidChange(_ text: UITextField) {
-       // self.beforeTextChanged(text.text ?? "")
     }
 }

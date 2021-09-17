@@ -19,4 +19,22 @@ extension String {
         let start = index(startIndex, offsetBy: max(0, range.lowerBound))
          return String(self[start...])
     }
+    
+    func getOnlyNumbers() -> String {
+        var textUnmasked = self.replacingOccurrences(of: ".", with: "")
+        if self.starts(with: "+55") {
+            textUnmasked = self.replacingOccurrences(of: "+55", with: "")
+        }
+        textUnmasked = textUnmasked.replacingOccurrences(of: "-", with: "")
+        textUnmasked = textUnmasked.replacingOccurrences(of: "/", with: "")
+        textUnmasked = textUnmasked.replacingOccurrences(of: "(", with: "")
+        textUnmasked = textUnmasked.replacingOccurrences(of: " ", with: "")
+        textUnmasked = textUnmasked.replacingOccurrences(of: "+", with: "")
+        textUnmasked = textUnmasked.replacingOccurrences(of: ")", with: "")
+        return textUnmasked
+    }
+  
+    func hasOnlyNumbers() -> Bool {
+        return !self.getOnlyNumbers().filter{ $0.isNumber }.isEmpty
+    }
 }
