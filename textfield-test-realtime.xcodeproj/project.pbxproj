@@ -7,23 +7,18 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		BA007B7D26F2E00800ABD304 /* ChaveAleatoriaMask.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA007B7C26F2E00800ABD304 /* ChaveAleatoriaMask.swift */; };
-		BA007B7F26F42B6D00ABD304 /* EmailMask.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA007B7E26F42B6D00ABD304 /* EmailMask.swift */; };
+		BA007B8126F438F400ABD304 /* MaskExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA007B8026F438F400ABD304 /* MaskExtension.swift */; };
 		BA49E80026F0DC4A005E37AD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA49E7FF26F0DC4A005E37AD /* AppDelegate.swift */; };
 		BA49E80226F0DC4A005E37AD /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA49E80126F0DC4A005E37AD /* SceneDelegate.swift */; };
 		BA49E80426F0DC4A005E37AD /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA49E80326F0DC4A005E37AD /* ViewController.swift */; };
 		BA49E80726F0DC4A005E37AD /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BA49E80526F0DC4A005E37AD /* Main.storyboard */; };
 		BA49E80926F0DC4B005E37AD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BA49E80826F0DC4B005E37AD /* Assets.xcassets */; };
 		BA49E80C26F0DC4B005E37AD /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BA49E80A26F0DC4B005E37AD /* LaunchScreen.storyboard */; };
-		BA49E81526F10313005E37AD /* CNPJMask.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA49E81426F10313005E37AD /* CNPJMask.swift */; };
-		BA49E81826F106D2005E37AD /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA49E81726F106D2005E37AD /* Extensions.swift */; };
-		BA49E81A26F10B05005E37AD /* CPFMask.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA49E81926F10B05005E37AD /* CPFMask.swift */; };
-		BA49E81C26F10C6E005E37AD /* PhoneMask.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA49E81B26F10C6E005E37AD /* PhoneMask.swift */; };
+		BA49E81826F106D2005E37AD /* ValidationExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA49E81726F106D2005E37AD /* ValidationExtension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		BA007B7C26F2E00800ABD304 /* ChaveAleatoriaMask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChaveAleatoriaMask.swift; sourceTree = "<group>"; };
-		BA007B7E26F42B6D00ABD304 /* EmailMask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailMask.swift; sourceTree = "<group>"; };
+		BA007B8026F438F400ABD304 /* MaskExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MaskExtension.swift; sourceTree = "<group>"; };
 		BA49E7FC26F0DC4A005E37AD /* textfield-test-realtime.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "textfield-test-realtime.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		BA49E7FF26F0DC4A005E37AD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BA49E80126F0DC4A005E37AD /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -32,10 +27,7 @@
 		BA49E80826F0DC4B005E37AD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		BA49E80B26F0DC4B005E37AD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		BA49E80D26F0DC4B005E37AD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		BA49E81426F10313005E37AD /* CNPJMask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CNPJMask.swift; sourceTree = "<group>"; };
-		BA49E81726F106D2005E37AD /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
-		BA49E81926F10B05005E37AD /* CPFMask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CPFMask.swift; sourceTree = "<group>"; };
-		BA49E81B26F10C6E005E37AD /* PhoneMask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneMask.swift; sourceTree = "<group>"; };
+		BA49E81726F106D2005E37AD /* ValidationExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValidationExtension.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -69,7 +61,6 @@
 			isa = PBXGroup;
 			children = (
 				BA49E81626F106BF005E37AD /* extension */,
-				BA49E81326F10301005E37AD /* mask */,
 				BA49E7FF26F0DC4A005E37AD /* AppDelegate.swift */,
 				BA49E80126F0DC4A005E37AD /* SceneDelegate.swift */,
 				BA49E80326F0DC4A005E37AD /* ViewController.swift */,
@@ -81,22 +72,11 @@
 			path = "textfield-test-realtime";
 			sourceTree = "<group>";
 		};
-		BA49E81326F10301005E37AD /* mask */ = {
-			isa = PBXGroup;
-			children = (
-				BA49E81426F10313005E37AD /* CNPJMask.swift */,
-				BA49E81926F10B05005E37AD /* CPFMask.swift */,
-				BA49E81B26F10C6E005E37AD /* PhoneMask.swift */,
-				BA007B7C26F2E00800ABD304 /* ChaveAleatoriaMask.swift */,
-				BA007B7E26F42B6D00ABD304 /* EmailMask.swift */,
-			);
-			path = mask;
-			sourceTree = "<group>";
-		};
 		BA49E81626F106BF005E37AD /* extension */ = {
 			isa = PBXGroup;
 			children = (
-				BA49E81726F106D2005E37AD /* Extensions.swift */,
+				BA49E81726F106D2005E37AD /* ValidationExtension.swift */,
+				BA007B8026F438F400ABD304 /* MaskExtension.swift */,
 			);
 			path = extension;
 			sourceTree = "<group>";
@@ -171,15 +151,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BA49E81826F106D2005E37AD /* Extensions.swift in Sources */,
-				BA49E81526F10313005E37AD /* CNPJMask.swift in Sources */,
-				BA007B7F26F42B6D00ABD304 /* EmailMask.swift in Sources */,
-				BA49E81C26F10C6E005E37AD /* PhoneMask.swift in Sources */,
+				BA49E81826F106D2005E37AD /* ValidationExtension.swift in Sources */,
 				BA49E80426F0DC4A005E37AD /* ViewController.swift in Sources */,
 				BA49E80026F0DC4A005E37AD /* AppDelegate.swift in Sources */,
 				BA49E80226F0DC4A005E37AD /* SceneDelegate.swift in Sources */,
-				BA49E81A26F10B05005E37AD /* CPFMask.swift in Sources */,
-				BA007B7D26F2E00800ABD304 /* ChaveAleatoriaMask.swift in Sources */,
+				BA007B8126F438F400ABD304 /* MaskExtension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

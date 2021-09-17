@@ -21,58 +21,84 @@ class ViewController: UIViewController {
     }
     
     func onTextChanged(_ text: String?) {
-        self.cleanText = text?.getOnlyNumbers() ?? ""
+        self.cleanText = text?.removeAllFormatting() ?? ""
+        
+        //  TODO: validar com Regex, se for qualquer numero sequencial, ja dar um return
         
         print(" ")
         print("LOG >> onTextChanged: \(text ?? "")")
-        print("LOG >> getOnlyNumbers: \(String(describing: text?.getOnlyNumbers()))")
+        print("LOG >> getOnlyNumbers: \(String(describing: text?.removeAllFormatting()))")
         print("LOG >> cleanText: \(cleanText)")
         print("LOG >> cleanText.count: \(cleanText.count)")
         print("LOG >> hasOnlyNumbers(self.cleanText)t: \(self.cleanText.hasOnlyNumbers())")
         
-        if EmailMask().isEmail(text ?? "") {
-            if EmailMask().isValidEmail(text ?? "") {
-                print("LOG >> EMAIL")
-            } else {
-                print("LOG >> EMAIL INVALIDO")
-            }
+        if (text ?? "").isEmail() {
+            emailValidation(text ?? "")
         } else if self.cleanText.count == 11 && self.cleanText.hasOnlyNumbers() {
             //  CPF ou CELULAR
-            if CPFMask().isCPF(self.cleanText) && CPFMask().isValidCPF(self.cleanText) {
-                print("LOG >> CPF")
-                self.filledText = CPFMask().mask(self.cleanText)
-                self.setMask(self.filledText)
-            } else if PhoneMask().isPhone(self.cleanText) {
-                print("LOG >> CELULAR")
-                self.filledText = PhoneMask().mask(self.cleanText)
-                self.setMask(self.filledText)
+            if self.cleanText.isValidCPF() {
+                cpfValidation()
+            } else if self.cleanText.isValidPhone() {
+                phoneValidation()
             } else {
                 print("LOG >> NEM CPF | NEM CPNJ")
             }
         } else if self.cleanText.count == 14 && self.cleanText.hasOnlyNumbers() {
-            if CNPJMask().isCNPJ(self.cleanText) {
+            if self.cleanText.isValidCNPJ() {
                 //  CNPJ
-                print("LOG >> CNPJ")
-                self.filledText = CNPJMask().mask(self.cleanText)
-                self.setMask(self.filledText)
+                cnpjValidation()
             } else {
                 //  "CNPJ invalido"
                 print("LOG >> CNPJ INVALIDO")
             }
         } else if self.cleanText.count == 32 {
             //  CHAVE ALEATORIA
-            if ChaveAleatoriaMask().isValid(text ?? "") {
-                print("LOG >> CHAVE ALEATORIA")
-                self.filledText = self.cleanText
-            } else {
-                //  "Chave aleatória invalida"
-                print("LOG >> CHAVE ALEATORIA INVALIDA")
-            }
+            chaveAleatoriaValidation(text ?? "")
         } else {
             //  "Chave invalida"
             print("LOG >> CHAVE INVALIDA")
-            self.cleanText = self.cleanText.getOnlyNumbers()
+            self.cleanText = self.cleanText.removeAllFormatting()
             self.nameField.text = self.cleanText
+        }
+    }
+    
+    private func emailValidation(_ text: String?) {
+        if (text ?? "").isValidEmail() {
+            print("LOG >> EMAIL")
+        } else {
+            print("LOG >> EMAIL INVALIDO")
+        }
+    }
+    
+    private func cpfValidation() {
+        print("LOG >> CPF")
+        if self.cleanText.isCPF() {
+            self.filledText = self.cleanText.toCPFmask()
+            self.setMask(self.filledText)
+        } else {
+            print("LOG >> CPF INVALIDO")
+        }
+    }
+    
+    private func cnpjValidation() {
+        print("LOG >> CNPJ")
+        self.filledText = self.cleanText.toCNPJmask()
+        self.setMask(self.filledText)
+    }
+    
+    private func phoneValidation() {
+        print("LOG >> CELULAR")
+        self.filledText = self.cleanText.toPhoneMask()
+        self.setMask(self.filledText)
+    }
+    
+    private func chaveAleatoriaValidation(_ text: String) {
+        print("LOG >> CHAVE ALEATORIA")
+        if (text).isValidChaveAleatoria() {
+            self.filledText = self.cleanText
+        } else {
+            //  "Chave aleatória invalida"
+            print("LOG >> CHAVE ALEATORIA INVALIDA")
         }
     }
     
