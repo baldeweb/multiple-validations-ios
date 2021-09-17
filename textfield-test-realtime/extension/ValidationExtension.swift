@@ -1,10 +1,3 @@
-//
-//  Extensions.swift
-//  textfield-test-realtime
-//
-//  Created by Wallace on 14/09/21.
-//
-
 import Foundation
 
 extension String {

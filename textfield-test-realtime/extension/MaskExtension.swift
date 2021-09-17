@@ -1,10 +1,3 @@
-//
-//  MaskExtension.swift
-//  textfield-test-realtime
-//
-//  Created by Wallace Baldenebre on 16/09/21.
-//
-
 import Foundation
 
 extension String {

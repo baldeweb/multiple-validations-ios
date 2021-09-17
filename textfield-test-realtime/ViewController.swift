@@ -8,15 +8,12 @@
 import UIKit
 
 class ViewController: UIViewController {
-
-    private var filledText = ""
-    private var cleanText = ""
     
     @IBOutlet weak var nameField: UITextField!
+    private var cleanText = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         self.nameField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
     }
     
@@ -63,8 +60,9 @@ class ViewController: UIViewController {
     }
     
     private func emailValidation(_ text: String?) {
+        print("LOG >> EMAIL")
         if (text ?? "").isValidEmail() {
-            print("LOG >> EMAIL")
+            print("LOG >> EMAIL VALIDO")
         } else {
             print("LOG >> EMAIL INVALIDO")
         }
@@ -73,8 +71,7 @@ class ViewController: UIViewController {
     private func cpfValidation() {
         print("LOG >> CPF")
         if self.cleanText.isCPF() {
-            self.filledText = self.cleanText.toCPFmask()
-            self.setMask(self.filledText)
+            self.setMask(self.cleanText.toCPFmask())
         } else {
             print("LOG >> CPF INVALIDO")
         }
@@ -82,20 +79,18 @@ class ViewController: UIViewController {
     
     private func cnpjValidation() {
         print("LOG >> CNPJ")
-        self.filledText = self.cleanText.toCNPJmask()
-        self.setMask(self.filledText)
+        self.setMask(self.cleanText.toCNPJmask())
     }
     
     private func phoneValidation() {
         print("LOG >> CELULAR")
-        self.filledText = self.cleanText.toPhoneMask()
-        self.setMask(self.filledText)
+        self.setMask(self.cleanText.toPhoneMask())
     }
     
     private func chaveAleatoriaValidation(_ text: String) {
         print("LOG >> CHAVE ALEATORIA")
         if (text).isValidChaveAleatoria() {
-            self.filledText = self.cleanText
+            self.setMask(self.cleanText)
         } else {
             //  "Chave aleatória invalida"
             print("LOG >> CHAVE ALEATORIA INVALIDA")
