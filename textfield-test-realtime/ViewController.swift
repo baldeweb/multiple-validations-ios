@@ -17,27 +17,31 @@ class ViewController: UIViewController {
         self.nameField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
     }
     
-    func onTextChanged(_ text: String?) {
-        self.cleanText = text?.removeAllFormatting() ?? ""
+    func onTextChanged(_ text: String) {
+        self.cleanText = text.removeAllFormatting()
         
         //  TODO: validar com Regex, se for qualquer numero sequencial, ja dar um return
         
         print(" ")
-        print("LOG >> onTextChanged: \(text ?? "")")
-        print("LOG >> getOnlyNumbers: \(String(describing: text?.removeAllFormatting()))")
+        print("LOG >> onTextChanged: \(text)")
+        print("LOG >> getOnlyNumbers: \(String(describing: text.removeAllFormatting()))")
         print("LOG >> cleanText: \(cleanText)")
         print("LOG >> cleanText.count: \(cleanText.count)")
         print("LOG >> hasOnlyNumbers(self.cleanText)t: \(self.cleanText.hasOnlyNumbers())")
         
-        if (text ?? "").isEmail() {
-            emailValidation(text ?? "")
+        if text.isEmail() {
+            //  EMAIL VALIDO
+            emailValidation(text)
         } else if self.cleanText.count == 11 && self.cleanText.hasOnlyNumbers() {
             //  CPF ou CELULAR
             if self.cleanText.isValidCPF() {
+                //  CPF VALIDO
                 cpfValidation()
             } else if self.cleanText.isValidPhone() {
+                //  CELULAR VALIDO
                 phoneValidation()
             } else {
+                //  CPF E CELULAR INVALIDOS
                 print("LOG >> NEM CPF | NEM CPNJ")
             }
         } else if self.cleanText.count == 14 && self.cleanText.hasOnlyNumbers() {
@@ -45,23 +49,21 @@ class ViewController: UIViewController {
                 //  CNPJ
                 cnpjValidation()
             } else {
-                //  "CNPJ invalido"
+                //  "CNPJ INVALIDO"
                 print("LOG >> CNPJ INVALIDO")
             }
         } else if self.cleanText.count == 32 {
             //  CHAVE ALEATORIA
-            chaveAleatoriaValidation(text ?? "")
+            chaveAleatoriaValidation(text)
         } else {
-            //  "Chave invalida"
-            print("LOG >> CHAVE INVALIDA")
-            self.cleanText = self.cleanText.removeAllFormatting()
-            self.nameField.text = self.cleanText
+            //  "CHAVE INVALIDA"
+            chaveInvalidaValidation()
         }
     }
     
-    private func emailValidation(_ text: String?) {
+    private func emailValidation(_ text: String) {
         print("LOG >> EMAIL")
-        if (text ?? "").isValidEmail() {
+        if text.isValidEmail() {
             print("LOG >> EMAIL VALIDO")
         } else {
             print("LOG >> EMAIL INVALIDO")
@@ -89,12 +91,18 @@ class ViewController: UIViewController {
     
     private func chaveAleatoriaValidation(_ text: String) {
         print("LOG >> CHAVE ALEATORIA")
-        if (text).isValidChaveAleatoria() {
+        if text.isValidChaveAleatoria() {
             self.setMask(self.cleanText)
         } else {
             //  "Chave aleatória invalida"
             print("LOG >> CHAVE ALEATORIA INVALIDA")
         }
+    }
+    
+    private func chaveInvalidaValidation() {
+        print("LOG >> CHAVE INVALIDA")
+        self.cleanText = self.cleanText.removeAllFormatting()
+        self.nameField.text = self.cleanText
     }
     
     private func setMask(_ text: String) {
