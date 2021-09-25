@@ -2,7 +2,6 @@ import Foundation
 
 extension String {
     func toCPFmask() -> String {
-        print("LOG >> CPF[inicio]: \(self)")
         let cpf = self
         var builder = ""
         builder += cpf[0..<3]
@@ -12,7 +11,6 @@ extension String {
         builder += cpf[6..<9]
         builder += "-"
         builder += cpf[9..<11]
-        print("LOG >> CPF[fim] \(builder)")
         return builder
     }
     

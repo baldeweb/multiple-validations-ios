@@ -9,12 +9,16 @@ import UIKit
 
 class ViewController: UIViewController {
     
-    @IBOutlet weak var nameField: UITextField!
+    @IBOutlet weak var nameField: CustomUITextField!
     private var cleanText = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.nameField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
+        
+        self.nameField.onDelete = { text in
+            
+        }
     }
     
     func onTextChanged(_ text: String) {
@@ -34,7 +38,10 @@ class ViewController: UIViewController {
             emailValidation(text)
         } else if self.cleanText.count == 11 && self.cleanText.hasOnlyNumbers() {
             //  CPF ou CELULAR
-            if self.cleanText.isValidCPF() {
+            if self.cleanText.isValidCPF() && self.cleanText.isValidPhone() {
+                //  CPF E CELULAR VALIDOS
+                cpfValidation()
+            } else if self.cleanText.isValidCPF() {
                 //  CPF VALIDO
                 cpfValidation()
             } else if self.cleanText.isValidPhone() {
@@ -45,13 +52,8 @@ class ViewController: UIViewController {
                 print("LOG >> NEM CPF | NEM CPNJ")
             }
         } else if self.cleanText.count == 14 && self.cleanText.hasOnlyNumbers() {
-            if self.cleanText.isValidCNPJ() {
-                //  CNPJ
-                cnpjValidation()
-            } else {
-                //  "CNPJ INVALIDO"
-                print("LOG >> CNPJ INVALIDO")
-            }
+            //  CNPJ
+            cnpjValidation()
         } else if self.cleanText.count == 32 {
             //  CHAVE ALEATORIA
             chaveAleatoriaValidation(text)
@@ -81,7 +83,11 @@ class ViewController: UIViewController {
     
     private func cnpjValidation() {
         print("LOG >> CNPJ")
-        self.setMask(self.cleanText.toCNPJmask())
+        if self.cleanText.isValidCNPJ() {
+            self.setMask(self.cleanText.toCNPJmask())
+        } else {
+            print("LOG >> CNPJ INVALIDO")
+        }
     }
     
     private func phoneValidation() {

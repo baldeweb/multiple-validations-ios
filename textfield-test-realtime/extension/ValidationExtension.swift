@@ -14,10 +14,15 @@ extension String {
     }
     
     func removeAllFormatting() -> String {
-        var textUnmasked = self.replacingOccurrences(of: ".", with: "")
+        var textUnmasked = self
+        
+        textUnmasked = textUnmasked.replacingOccurrences(of: ".", with: "")
+        
         if self.starts(with: "+55") {
-            textUnmasked = self.replacingOccurrences(of: "+55", with: "")
+            textUnmasked = textUnmasked.replacingOccurrences(of: "+55", with: "")
         }
+        
+        textUnmasked = textUnmasked.replacingOccurrences(of: ",", with: "")
         textUnmasked = textUnmasked.replacingOccurrences(of: "-", with: "")
         textUnmasked = textUnmasked.replacingOccurrences(of: "/", with: "")
         textUnmasked = textUnmasked.replacingOccurrences(of: "(", with: "")
@@ -26,9 +31,21 @@ extension String {
         textUnmasked = textUnmasked.replacingOccurrences(of: ")", with: "")
         return textUnmasked
     }
-  
+   
     func hasOnlyNumbers() -> Bool {
-        return !self.removeAllFormatting().filter{ $0.isNumber }.isEmpty
+        let text = self.removeAllFormatting()
+        
+        var hasNumber = false
+        
+        for char in text {
+            if char.isNumber {
+                hasNumber = true
+            } else {
+                hasNumber = false
+            }
+        }
+        
+        return hasNumber
     }
     
     func isValidCPF() -> Bool {
