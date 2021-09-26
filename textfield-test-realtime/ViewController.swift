@@ -34,35 +34,35 @@ class ViewController: UIViewController {
             print("LOG >> cleanText: \(cleanText) | Tamanho: \(cleanText.count)")
             
             switch cleanText.count {
-                case 11:
-                    //  CPF ou CELULAR
-                    if cleanText.isCellphone() && cleanText.isCPF() {
-                        //  CPF E CELULAR VALIDOS
-                        print("LOG >> CPF E CELULAR")
-                    } else if cleanText.isCPF() {
-                        //  CPF VALIDO
-                        cpfValidation()
-                    } else if cleanText.isCellphone() {
-                        //  CELULAR VALIDO
-                        phoneValidation()
-                    } else {
-                        //  CPF E CELULAR INVALIDOS
-                        print("LOG >> CPF E CELULAR INVALIDOS")
-                        chaveInvalidaValidation()
-                    }
-                    break
-                case 14:
-                    //  CNPJ
-                    cnpjValidation()
-                    break
-                case 32:
-                    //  CHAVE ALEATORIA
-                    chaveAleatoriaValidation(text)
-                    break
-                default:
-                    //  "CHAVE INVALIDA"
+            case 11:
+                //  CPF ou CELULAR
+                if cleanText.isCellphone() && cleanText.isCPF() {
+                    //  CPF E CELULAR VALIDOS
+                    print("LOG >> CPF E CELULAR")
+                } else if cleanText.isCPF() {
+                    //  CPF VALIDO
+                    cpfValidation()
+                } else if cleanText.isCellphone() {
+                    //  CELULAR VALIDO
+                    phoneValidation()
+                } else {
+                    //  CPF E CELULAR INVALIDOS
+                    print("LOG >> CPF E CELULAR INVALIDOS")
                     chaveInvalidaValidation()
-                    break
+                }
+                break
+            case 14:
+                //  CNPJ
+                cnpjValidation()
+                break
+            case 32:
+                //  CHAVE ALEATORIA
+                chaveAleatoriaValidation(text)
+                break
+            default:
+                //  "CHAVE INVALIDA"
+                chaveInvalidaValidation()
+                break
             }
         }
     }
