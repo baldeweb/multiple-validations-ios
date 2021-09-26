@@ -33,22 +33,17 @@ extension String {
     }
    
     func hasOnlyNumbers() -> Bool {
-        let text = self.removeAllFormatting()
-        
-        var hasNumber = false
-        
-        for char in text {
-            if char.isNumber {
-                hasNumber = true
-            } else {
-                hasNumber = false
-            }
-        }
-        
-        return hasNumber
+        let hasNumber = self.range(of: "\\d+", options: .regularExpression) != nil
+        let hasLetter = self.range(of: "[a-zA-Z]+", options: .regularExpression) != nil
+        return hasNumber && !hasLetter
     }
     
-    func isValidCPF() -> Bool {
+    func isEmail() -> Bool {
+        let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
+        return self.range(of: emailRegEx, options: .regularExpression) != nil
+    }
+    
+    func isCPF() -> Bool {
         let numbers = self.components(separatedBy: CharacterSet.decimalDigits.inverted).joined()
         guard numbers.count == 11 else { return false }
 
@@ -82,79 +77,19 @@ extension String {
         return temp1 == d1 && temp2 == d2
     }
     
-    func isCPF() -> Bool {
-        let cpfRegex = "[0-9]{3}\\.?[0-9]{3}\\.?[0-9]{3}\\-?[0-9]{2}"
-        var regex : NSRegularExpression!
-        do {
-            try regex = NSRegularExpression(pattern: cpfRegex, options: .caseInsensitive)
-        } catch {
-            print("LOG >> REGEX CPF FAILED")
-        }
-        
-        return regex.firstMatch(
-            in: self,
-            options: NSRegularExpression.MatchingOptions(rawValue: 0),
-            range: NSMakeRange(0, self.count)
-        ) != nil
+    func isCellphone() -> Bool {
+        let validDDD = "11|12|13|14|15|16|17|18|19|21|22|24|27|28|31|32|33|34|35|37|38|41|42|43|44|45|46|47|48|49|51|53|54|55|61|62|63|64|65|66|67|68|69|71|73|74|75|77|79|81|82|83|84|85|86|87|88|89|91|92|93|94|95|96|97|98|99"
+        let phoneRegex = "(?:(?:\\+|00)?(55))?(\(validDDD))((9[6-9]{1}\\d{3})-?(\\d{4}))$"
+        return self.range(of: phoneRegex, options: .regularExpression) != nil
     }
     
-    func isValidCNPJ() -> Bool {
+    func isCNPJ() -> Bool {
         let cnpjRegex = "[0-9]{2}\\.?[0-9]{3}\\.?[0-9]{3}\\/?[0-9]{4}\\-?[0-9]{2}"
-        var regex : NSRegularExpression!
-        do {
-            try regex = NSRegularExpression(pattern: cnpjRegex, options: .caseInsensitive)
-        } catch {
-            print("LOG >> REGEX CNPJ FAILED")
-        }
-        
-        return regex.firstMatch(
-            in: self,
-            options: NSRegularExpression.MatchingOptions(rawValue: 0),
-            range: NSMakeRange(0, self.count)
-        ) != nil
+        return self.range(of: cnpjRegex, options: .regularExpression) != nil
     }
     
-    func isValidPhone() -> Bool {
-        let invalidDDI = "10|20|23|25|26|29|30|36|39|40|50|52|56|57|58|59|60|70|72|76|78|80|90"
-        let phoneRegex = "^(\\+55)?([(]?(?:"+invalidDDI+")[)]?|(?:"+invalidDDI+"))9[5-9]{1}\\d{4}[-]?\\d{4}$"
-        var regex : NSRegularExpression!
-        do {
-            try regex = NSRegularExpression(pattern: phoneRegex, options: NSRegularExpression.Options.caseInsensitive)
-        } catch {
-            print("LOG >> REGEX CPF FAILED")
-        }
-        
-        return regex.firstMatch(
-            in: self,
-            options: NSRegularExpression.MatchingOptions(rawValue: 0),
-            range: NSMakeRange(0, self.count)
-        ) == nil
-    }
-    
-    func isValidChaveAleatoria() -> Bool {
+    func isChaveAleatoria() -> Bool {
         let chaveAleatoriaRegex = "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"
-        var regex : NSRegularExpression!
-        do {
-            try regex = NSRegularExpression(pattern: chaveAleatoriaRegex, options: NSRegularExpression.Options.caseInsensitive)
-        } catch {
-            print("LOG >> REGEX CPF FAILED")
-        }
-        
-        return regex.firstMatch(
-            in: self,
-            options: NSRegularExpression.MatchingOptions(rawValue: 0),
-            range: NSMakeRange(0, self.count)
-        ) == nil
-    }
-    
-    func isValidEmail() -> Bool {
-        return self.contains("@") && self.contains(".")
-    }
-    
-    func isEmail() -> Bool {
-        let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
-
-        let emailPred = NSPredicate(format:"SELF MATCHES %@", emailRegEx)
-        return emailPred.evaluate(with: self)
+        return self.range(of: chaveAleatoriaRegex, options: .regularExpression) != nil
     }
 }

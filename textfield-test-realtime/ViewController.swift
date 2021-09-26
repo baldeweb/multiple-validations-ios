@@ -15,76 +15,72 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.nameField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
-        
-        self.nameField.onDelete = { text in
-            
-        }
     }
     
     func onTextChanged(_ text: String) {
-        self.cleanText = text.removeAllFormatting()
-        
-        //  TODO: validar com Regex, se for qualquer numero sequencial, ja dar um return
-        
         print(" ")
         print("LOG >> onTextChanged: \(text)")
         print("LOG >> getOnlyNumbers: \(String(describing: text.removeAllFormatting()))")
-        print("LOG >> cleanText: \(cleanText)")
-        print("LOG >> cleanText.count: \(cleanText.count)")
-        print("LOG >> hasOnlyNumbers(self.cleanText)t: \(self.cleanText.hasOnlyNumbers())")
+        print("LOG >> hasOnlyNumbers[cleanText]: \(cleanText.hasOnlyNumbers())")
+        print("LOG >> hasOnlyNumbers[hasOnlyNumbers]: \(text.hasOnlyNumbers())")
         
-        if text.isEmail() {
-            //  EMAIL VALIDO
-            emailValidation(text)
-        } else if self.cleanText.count == 11 && self.cleanText.hasOnlyNumbers() {
-            //  CPF ou CELULAR
-            if self.cleanText.isValidCPF() && self.cleanText.isValidPhone() {
-                //  CPF E CELULAR VALIDOS
-                cpfValidation()
-            } else if self.cleanText.isValidCPF() {
-                //  CPF VALIDO
-                cpfValidation()
-            } else if self.cleanText.isValidPhone() {
-                //  CELULAR VALIDO
-                phoneValidation()
-            } else {
-                //  CPF E CELULAR INVALIDOS
-                print("LOG >> NEM CPF | NEM CPNJ")
+        if !text.hasOnlyNumbers() {
+            if text.isEmail() {
+                //  EMAIL VALIDO
+                emailValidation(text)
             }
-        } else if self.cleanText.count == 14 && self.cleanText.hasOnlyNumbers() {
-            //  CNPJ
-            cnpjValidation()
-        } else if self.cleanText.count == 32 {
-            //  CHAVE ALEATORIA
-            chaveAleatoriaValidation(text)
         } else {
-            //  "CHAVE INVALIDA"
-            chaveInvalidaValidation()
+            self.cleanText = text.removeAllFormatting()
+            print("LOG >> cleanText: \(cleanText) | Tamanho: \(cleanText.count)")
+            
+            switch cleanText.count {
+                case 11:
+                    //  CPF ou CELULAR
+                    if cleanText.isCellphone() && cleanText.isCPF() {
+                        //  CPF E CELULAR VALIDOS
+                        print("LOG >> CPF E CELULAR")
+                    } else if cleanText.isCPF() {
+                        //  CPF VALIDO
+                        cpfValidation()
+                    } else if cleanText.isCellphone() {
+                        //  CELULAR VALIDO
+                        phoneValidation()
+                    } else {
+                        //  CPF E CELULAR INVALIDOS
+                        print("LOG >> CPF E CELULAR INVALIDOS")
+                        chaveInvalidaValidation()
+                    }
+                    break
+                case 14:
+                    //  CNPJ
+                    cnpjValidation()
+                    break
+                case 32:
+                    //  CHAVE ALEATORIA
+                    chaveAleatoriaValidation(text)
+                    break
+                default:
+                    //  "CHAVE INVALIDA"
+                    chaveInvalidaValidation()
+                    break
+            }
         }
     }
     
     private func emailValidation(_ text: String) {
         print("LOG >> EMAIL")
-        if text.isValidEmail() {
-            print("LOG >> EMAIL VALIDO")
-        } else {
-            print("LOG >> EMAIL INVALIDO")
-        }
+        print("LOG >> EMAIL VALIDO")
     }
     
     private func cpfValidation() {
         print("LOG >> CPF")
-        if self.cleanText.isCPF() {
-            self.setMask(self.cleanText.toCPFmask())
-        } else {
-            print("LOG >> CPF INVALIDO")
-        }
+        self.setMask(cleanText.toCPFmask())
     }
     
     private func cnpjValidation() {
         print("LOG >> CNPJ")
-        if self.cleanText.isValidCNPJ() {
-            self.setMask(self.cleanText.toCNPJmask())
+        if cleanText.isCNPJ() {
+            self.setMask(cleanText.toCNPJmask())
         } else {
             print("LOG >> CNPJ INVALIDO")
         }
@@ -92,13 +88,13 @@ class ViewController: UIViewController {
     
     private func phoneValidation() {
         print("LOG >> CELULAR")
-        self.setMask(self.cleanText.toPhoneMask())
+        self.setMask(cleanText.toPhoneMask())
     }
     
     private func chaveAleatoriaValidation(_ text: String) {
         print("LOG >> CHAVE ALEATORIA")
-        if text.isValidChaveAleatoria() {
-            self.setMask(self.cleanText)
+        if text.isChaveAleatoria() {
+            self.setMask(cleanText)
         } else {
             //  "Chave aleatória invalida"
             print("LOG >> CHAVE ALEATORIA INVALIDA")
@@ -107,13 +103,13 @@ class ViewController: UIViewController {
     
     private func chaveInvalidaValidation() {
         print("LOG >> CHAVE INVALIDA")
-        self.cleanText = self.cleanText.removeAllFormatting()
-        self.nameField.text = self.cleanText
+        cleanText = cleanText.removeAllFormatting()
+        nameField.text = cleanText
     }
     
     private func setMask(_ text: String) {
         print("setMask: \(text)")
-        self.nameField.text = text
+        nameField.text = text
     }
     
     @objc func textFieldDidChange(_ text: UITextField) {
