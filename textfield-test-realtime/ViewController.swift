@@ -9,7 +9,7 @@ import UIKit
 
 class ViewController: UIViewController {
     
-    @IBOutlet weak var nameField: CustomUITextField!
+    @IBOutlet weak var nameField: UITextField!
     private var cleanText = ""
     
     override func viewDidLoad() {
