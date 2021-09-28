@@ -11,23 +11,32 @@ class ViewController: UIViewController {
     
     @IBOutlet weak var nameField: UITextField!
     private var cleanText = ""
+    private var dictValue = Dictionary<String, PIXKey>()
+    public var onKeyChoosed: ((Dictionary<String, PIXKey>) -> Void)!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.nameField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
+        
+        self.onKeyChoosed = { result in
+            print("LOG >> self.onKeyChoosed >> result.first?.key: \(result.first?.key ?? "") result.first?.value: \(result.first?.value ?? PIXKey.CHAVE_INVALIDA)")
+        }
     }
     
     func onTextChanged(_ text: String) {
-        print(" ")
+        /*print(" ")
         print("LOG >> onTextChanged: \(text)")
         print("LOG >> getOnlyNumbers: \(String(describing: text.removeAllFormatting()))")
         print("LOG >> hasOnlyNumbers[cleanText]: \(cleanText.hasOnlyNumbers())")
-        print("LOG >> hasOnlyNumbers[hasOnlyNumbers]: \(text.hasOnlyNumbers())")
+        print("LOG >> hasOnlyNumbers[hasOnlyNumbers]: \(text.hasOnlyNumbers())")*/
         
         if !text.hasOnlyNumbers() {
             if text.isEmail() {
                 //  EMAIL VALIDO
                 emailValidation(text)
+            } else if text.isChaveAleatoria() {
+                //  CHAVE ALEATORIA
+                chaveAleatoriaValidation(text)
             }
         } else {
             self.cleanText = text.removeAllFormatting()
@@ -38,7 +47,7 @@ class ViewController: UIViewController {
                 //  CPF ou CELULAR
                 if cleanText.isCellphone() && cleanText.isCPF() {
                     //  CPF E CELULAR VALIDOS
-                    print("LOG >> CPF E CELULAR")
+                    cpfAndCellphoneValidation()
                 } else if cleanText.isCPF() {
                     //  CPF VALIDO
                     cpfValidation()
@@ -47,17 +56,12 @@ class ViewController: UIViewController {
                     phoneValidation()
                 } else {
                     //  CPF E CELULAR INVALIDOS
-                    print("LOG >> CPF E CELULAR INVALIDOS")
                     chaveInvalidaValidation()
                 }
                 break
             case 14:
                 //  CNPJ
                 cnpjValidation()
-                break
-            case 32:
-                //  CHAVE ALEATORIA
-                chaveAleatoriaValidation(text)
                 break
             default:
                 //  "CHAVE INVALIDA"
@@ -67,44 +71,57 @@ class ViewController: UIViewController {
         }
     }
     
+    private func cpfAndCellphoneValidation() {
+        self.dictValue[self.cleanText] = PIXKey.CPF_AND_CELULAR
+        self.onKeyChoosed(dictValue)
+    }
+    
     private func emailValidation(_ text: String) {
-        print("LOG >> EMAIL")
-        print("LOG >> EMAIL VALIDO")
+        self.dictValue[self.cleanText] = PIXKey.EMAIL
+        self.onKeyChoosed(dictValue)
     }
     
     private func cpfValidation() {
-        print("LOG >> CPF")
         self.setMask(cleanText.toCPFmask())
+        
+        self.dictValue[cleanText] = PIXKey.CPF
+        self.onKeyChoosed(dictValue)
     }
     
     private func cnpjValidation() {
-        print("LOG >> CNPJ")
         if cleanText.isCNPJ() {
             self.setMask(cleanText.toCNPJmask())
+            
+            self.dictValue[self.cleanText] = PIXKey.CNPJ
+            self.onKeyChoosed(dictValue)
         } else {
-            print("LOG >> CNPJ INVALIDO")
+            self.dictValue[self.cleanText] = PIXKey.CHAVE_INVALIDA
+            self.onKeyChoosed(dictValue)
         }
     }
     
     private func phoneValidation() {
-        print("LOG >> CELULAR")
         self.setMask(cleanText.toPhoneMask())
+        
+        self.dictValue[self.cleanText] = PIXKey.CELULAR
+        self.onKeyChoosed(dictValue)
     }
     
     private func chaveAleatoriaValidation(_ text: String) {
-        print("LOG >> CHAVE ALEATORIA")
         if text.isChaveAleatoria() {
             self.setMask(cleanText)
+            self.dictValue[self.cleanText] = PIXKey.CHAVE_ALEATORIA
+            self.onKeyChoosed(dictValue)
         } else {
-            //  "Chave aleatória invalida"
-            print("LOG >> CHAVE ALEATORIA INVALIDA")
+            self.dictValue[self.cleanText] = PIXKey.CHAVE_INVALIDA
+            self.onKeyChoosed(dictValue)
         }
     }
     
     private func chaveInvalidaValidation() {
-        print("LOG >> CHAVE INVALIDA")
         cleanText = cleanText.removeAllFormatting()
         nameField.text = cleanText
+        self.dictValue.removeAll()
     }
     
     private func setMask(_ text: String) {

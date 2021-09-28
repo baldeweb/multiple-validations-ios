@@ -15,6 +15,7 @@
 		BA49E80926F0DC4B005E37AD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BA49E80826F0DC4B005E37AD /* Assets.xcassets */; };
 		BA49E80C26F0DC4B005E37AD /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BA49E80A26F0DC4B005E37AD /* LaunchScreen.storyboard */; };
 		BA49E81826F106D2005E37AD /* ValidationExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA49E81726F106D2005E37AD /* ValidationExtension.swift */; };
+		BA5DE700270372AD00366680 /* PIXKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA5DE6FF270372AD00366680 /* PIXKey.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +29,7 @@
 		BA49E80B26F0DC4B005E37AD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		BA49E80D26F0DC4B005E37AD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BA49E81726F106D2005E37AD /* ValidationExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValidationExtension.swift; sourceTree = "<group>"; };
+		BA5DE6FF270372AD00366680 /* PIXKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PIXKey.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -68,6 +70,7 @@
 				BA49E80826F0DC4B005E37AD /* Assets.xcassets */,
 				BA49E80A26F0DC4B005E37AD /* LaunchScreen.storyboard */,
 				BA49E80D26F0DC4B005E37AD /* Info.plist */,
+				BA5DE6FF270372AD00366680 /* PIXKey.swift */,
 			);
 			path = "textfield-test-realtime";
 			sourceTree = "<group>";
@@ -152,6 +155,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BA49E81826F106D2005E37AD /* ValidationExtension.swift in Sources */,
+				BA5DE700270372AD00366680 /* PIXKey.swift in Sources */,
 				BA49E80426F0DC4A005E37AD /* ViewController.swift in Sources */,
 				BA49E80026F0DC4A005E37AD /* AppDelegate.swift in Sources */,
 				BA49E80226F0DC4A005E37AD /* SceneDelegate.swift in Sources */,
@@ -303,7 +307,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 4XLCLV84RA;
+				DEVELOPMENT_TEAM = K8264YTM86;
 				INFOPLIST_FILE = "textfield-test-realtime/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -323,7 +327,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 4XLCLV84RA;
+				DEVELOPMENT_TEAM = K8264YTM86;
 				INFOPLIST_FILE = "textfield-test-realtime/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
 				LD_RUNPATH_SEARCH_PATHS = (
