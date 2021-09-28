@@ -24,19 +24,28 @@ class ViewController: UIViewController {
     }
     
     func onTextChanged(_ text: String) {
-        /*print(" ")
+        print(" ")
         print("LOG >> onTextChanged: \(text)")
         print("LOG >> getOnlyNumbers: \(String(describing: text.removeAllFormatting()))")
         print("LOG >> hasOnlyNumbers[cleanText]: \(cleanText.hasOnlyNumbers())")
-        print("LOG >> hasOnlyNumbers[hasOnlyNumbers]: \(text.hasOnlyNumbers())")*/
+        print("LOG >> hasOnlyNumbers[hasOnlyNumbers]: \(text.hasOnlyNumbers())")
         
         if !text.hasOnlyNumbers() {
             if text.isEmail() {
                 //  EMAIL VALIDO
+                print("LOG >> EMAIL: \(text)")
                 emailValidation(text)
             } else if text.isChaveAleatoria() {
                 //  CHAVE ALEATORIA
+                print("LOG >> CHAVE ALEATORIA: \(text)")
                 chaveAleatoriaValidation(text)
+            } else {
+                //  TODO: nao funciona
+                print("LOG >> NOT EMAIL | NOT CHAVE ALEATORIA | \(text.removeAllFormatting())")
+                if cleanText.count == 31 {
+                    cleanText = text.removeAllFormatting()
+                    setMask(cleanText)
+                }
             }
         } else {
             self.cleanText = text.removeAllFormatting()
@@ -109,8 +118,8 @@ class ViewController: UIViewController {
     
     private func chaveAleatoriaValidation(_ text: String) {
         if text.isChaveAleatoria() {
-            self.setMask(cleanText)
-            self.dictValue[self.cleanText] = PIXKey.CHAVE_ALEATORIA
+            self.setMask(text)
+            self.dictValue[text] = PIXKey.CHAVE_ALEATORIA
             self.onKeyChoosed(dictValue)
         } else {
             self.dictValue[self.cleanText] = PIXKey.CHAVE_INVALIDA
