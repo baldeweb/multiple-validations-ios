@@ -20,6 +20,8 @@ extension String {
         
         if self.starts(with: "+55") {
             textUnmasked = textUnmasked.replacingOccurrences(of: "+55", with: "")
+        } else if self.starts(with: "55") {
+            textUnmasked = textUnmasked.replacingOccurrences(of: "55", with: "")
         }
         
         textUnmasked = textUnmasked.replacingOccurrences(of: ",", with: "")
@@ -79,7 +81,7 @@ extension String {
     
     func isCellphone() -> Bool {
         let validDDD = "11|12|13|14|15|16|17|18|19|21|22|24|27|28|31|32|33|34|35|37|38|41|42|43|44|45|46|47|48|49|51|53|54|55|61|62|63|64|65|66|67|68|69|71|73|74|75|77|79|81|82|83|84|85|86|87|88|89|91|92|93|94|95|96|97|98|99"
-        let phoneRegex = "(?:(?:\\+|00)?(55))?(\(validDDD))((9[6-9]{1}\\d{3})-?(\\d{4}))$"
+        let phoneRegex = "(?:(?:\\+|00)?(\\+?55)?)?(\(validDDD))((9[0-9]\\d{3})-?(\\d{4}))$"
         return self.range(of: phoneRegex, options: .regularExpression) != nil
     }
     
@@ -91,5 +93,38 @@ extension String {
     func isChaveAleatoria() -> Bool {
         let chaveAleatoriaRegex = "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"
         return self.range(of: chaveAleatoriaRegex, options: .regularExpression) != nil
+    }
+    
+    var isValidCNPJ: Bool {
+        let numbers = self.compactMap({Int(String($0))})
+        guard numbers.count == 14 && Set(numbers).count != 1 else { return false }
+        let soma1 = 11 - ( numbers[11] * 2 +
+            numbers[10] * 3 +
+            numbers[9] * 4 +
+            numbers[8] * 5 +
+            numbers[7] * 6 +
+            numbers[6] * 7 +
+            numbers[5] * 8 +
+            numbers[4] * 9 +
+            numbers[3] * 2 +
+            numbers[2] * 3 +
+            numbers[1] * 4 +
+            numbers[0] * 5 ) % 11
+        let dv1 = soma1 > 9 ? 0 : soma1
+        let soma2 = 11 - ( numbers[12] * 2 +
+            numbers[11] * 3 +
+            numbers[10] * 4 +
+            numbers[9] * 5 +
+            numbers[8] * 6 +
+            numbers[7] * 7 +
+            numbers[6] * 8 +
+            numbers[5] * 9 +
+            numbers[4] * 2 +
+            numbers[3] * 3 +
+            numbers[2] * 4 +
+            numbers[1] * 5 +
+            numbers[0] * 6 ) % 11
+        let dv2 = soma2 > 9 ? 0 : soma2
+        return dv1 == numbers[12] && dv2 == numbers[13]
     }
 }
